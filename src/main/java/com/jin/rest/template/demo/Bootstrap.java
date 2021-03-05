@@ -22,18 +22,28 @@ public class Bootstrap {
     }
 
     @RequestMapping("/getUser")
-    public User getUser(Long id)
+    public User getUser(Long id, Long timeout)
     {
-        User user = restTemplate.getForEntity("http://localhost:8080/getUser2?id={id}", User.class, id).getBody();
+        User user = restTemplate.getForEntity("http://localhost:8080/getUser2?id={id}&timeout={timeout}", User.class, id, timeout).getBody();
 
         return user;
     }
 
-//    @RequestMapping("/getUser2")
-//    public User getUser2(Long id)
-//    {
+    @RequestMapping("/getUser2")
+    public User getUser2(Long id, Long timeout)
+    {
+        try {
+            Thread.sleep(timeout);
+        } catch (InterruptedException e) {
+
+        }
 //        User user = restTemplate.postForEntity("http://localhost:8080/getUser2?id={id}", User.class, id).getBody();
-//
-//        return user;
-//    }
+        User user = new User();
+
+        user.setId(id);
+        user.setName("张三");
+        user.setAge(30);
+
+        return user;
+    }
 }
